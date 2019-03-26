@@ -164,6 +164,9 @@ installation image and a virtual machine disk of the same appliance:
      <!-- additional image settings -->
    </image>
 
+Note the additional attribute `primary` in the Live ISO image build
+type. KIWI will by default build the image which attribute `primary` is set
+to `true`.
 
 KIWI supports the following values for the `image` attribute (further
 attributes of the `type` element are documented inside the referenced
