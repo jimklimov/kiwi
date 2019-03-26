@@ -34,27 +34,26 @@ to find in the *description directory*:
 
 #. ``config.xml`` image description
 
-   This XML file is the main and only mandatory component of an image
-   description. It contains the general settings of the final image, like
-   the partition table, installed packages, present users, etc.
+   This XML file contains the image description, which is a collection of
+   general settings of the final image, like the partition table, installed
+   packages, present users, etc.
 
    The filename :file:`config.xml` is not mandatory, the image description
-   file can also have an arbitrary name plus the :file:`*.kiwi`
-   extension. KIWI will first look for a :file:`config.xml` file and then
-   pick the first :file:`*.kiwi`, if it didn't find the former.
+   file can also have an arbitrary name plus the :file:`*.kiwi` extension.
+   KIWI first looks for a :file:`config.xml` file. If it cannot be found,
+   it picks the first :file:`*.kiwi` file.
 
 #. ``config.sh`` shell script
 
-   The configuration shell script that runs and the end of the *Prepare
-   operation* if present. It can be used to fine tune the unpacked image in
+   If present, this configuration shell script runs at the end of the
+   *prepare operation*. It can be used to fine tune the unpacked image in
    ways that are not possible via the settings provided in
    :file:`config.xml`.
 
 #. ``images.sh`` shell script
 
-   The configuration shell script that runs at the beginning of the *Create
-   operation*. It is expected to be used to handle tasks specific to an
-   image type.
+   The configuration shell script that runs at the beginning of the *create
+   operation*. It is used to handle tasks specific to an image type.
 
 #. Overlay tree directory
 
@@ -68,18 +67,19 @@ to find in the *description directory*:
 
 #. CD root user data
 
-   For live ISO images and install ISO images an optional cdroot archive
+   For live ISO images and install ISO images an optional archive
    is supported. This is a tar archive matching the name
    :file:`config-cdroot.tar[.compression_postfix]`.
 
-   If present it will be unpacked as user data on the ISO image. This is
-   mostly useful to add e.g license files or user documentation on the
-   CD/DVD which can be read directly without booting from the media.
+   If present, the archive will be unpacked as user data on the ISO
+   image. For example, this is used to add license files or user
+   documentation. The documentation can then be read directly from the
+   CD/DVD without booting from the media.
 
 #. Archives included in the :file:`config.xml` file.
 
-   The archives that are included in the `<packages>` using the `<archive>`
-   subsection:
+   The archives that are included in `<packages>` using the `<archive>`
+   element:
 
    .. code:: xml
 

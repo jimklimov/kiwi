@@ -1,8 +1,8 @@
 The Image Description
 =====================
 
-The image description file is a XML file that defines the basic aspects of
-the appliance that will be build by KIWI, for example:
+An image description is a XML file that defines properties of the appliance
+that will be build by KIWI, for example:
 
 - image type (e.g. QEMU disk image, PXE bootable image, Vagrant box, etc.)
 - partition layout
@@ -10,15 +10,15 @@ the appliance that will be build by KIWI, for example:
 - users to be added
 
 The following sections will walk you through the major elements and
-attributes of the XML schema. A complete description of the schema can be
-found in :ref:`schema-docs`.
+attributes of the RELAX NG schema [#f1]_. A complete description of the
+schema can be found in :ref:`schema-docs`.
 
 
 The `image` Element
 -------------------
 
-The image description lives under the top-level `image` element, all
-additional settings will thus be children of it:
+The image description consists of the root element `image` and its
+children, for example:
 
 .. code-block:: xml
 
@@ -33,8 +33,10 @@ above example):
 
 - `name`: A name for this image that must not contain spaces or `/`.
 
-- `schemaversion`: The version of the XML schema that should be used. If in
-  doubt, use the latest available version.
+- `schemaversion`: The used version of the [KIWI] RNG schema. KIWI will
+  automatically convert your image description from an older schema
+  version to the most recent one (it will perform this only internally and
+  won't modify your :file:`config.xml`).
 
 The `name` attribute will be used to create the bootloader entry, however
 it can be inconvenient to use as it must be POSIX-safe. You can therefore
@@ -51,12 +53,11 @@ the attribute `displayName`, which doesn't have the same strict rules as
    </image>
 
 
-The `description` section
+The `description` Element
 -------------------------
 
-The first element inside the `image` element is by convention the
-`description` element, which contains some high level information about
-your image:
+The `description` element, contains some high level information about your
+image:
 
 .. code-block:: xml
 
@@ -80,7 +81,7 @@ attribute accepts the values `system` or `boot`. The value `boot` is used
 by the KIWI developers and is not relevant for the end user, thus `type`
 should be always set to `system`.
 
-`description` allows the following optional sub-elements to be present:
+`description` allows the following optional children:
 
 - `author`: The name of the author of this image.
 
@@ -89,17 +90,16 @@ should be always set to `system`.
 
 - `specification`: A detailed description of this image, e.g. its use case.
 
-- `license`: If applicable, you can specify a license for the image in this
-  field.
+- `license`: If applicable, you can specify a license for the image.
 
 
-The `preferences` section
+The `preferences` Element
 -------------------------
 
-The mandatory `preferences` section contains the definition of the various
+The mandatory `preferences` element contains the definition of the various
 enabled image types (so-called build types). Each of these build types can
 be supplied with attributes specific to that image type, which we described
-section :ref:`xml-description-build-types`.
+in section :ref:`xml-description-build-types`.
 
 The elements that are not image type specific are presented afterwards in
 section :ref:`xml-description-preferences-common-elements`.
@@ -107,13 +107,13 @@ section :ref:`xml-description-preferences-common-elements`.
 
 .. _xml-description-build-types:
 
-Build types
+Build Types
 ^^^^^^^^^^^
 
-A build type defines the type of appliance that is produced by KIWI, for
-instance a live ISO image or a virtual machine disk.
+A build type defines the type of an appliance that is produced by KIWI, for
+instance, a live ISO image or a virtual machine disk.
 
-For example a live ISO image is specified as follows:
+For example, a live ISO image is specified as follows:
 
 .. code-block:: xml
 
@@ -128,15 +128,15 @@ For example a live ISO image is specified as follows:
 
 
 A build type is defined via a single `type` element whose only required
-attribute is `image`, that defines which image will be created. All other
+attribute is `image`, that defines which image type is created. All other
 attributes are optional and can be used to customize an image further. In
-the above example we created an ISO image, with the an ext4
-hybrid-persistent filesystem [#f1]_.
+the above example we created an ISO image, with the an ext4 filesystem
+[#f2]_.
 
 It is possible to provide **multiple** `type` elements with different
-`image` attributes inside the preferences section. For instance the
+`image` attributes inside the preferences section. For instance, the
 following XML snippet can be used to create a live image, an OEM
-installation image and a virtual machine disk of the same appliance:
+installation image, and a virtual machine disk of the same appliance:
 
 .. code-block:: xml
 
@@ -212,7 +212,7 @@ the remaining child-elements: `machine`, `size` and `systemdisk`.
 
 .. _xml-description-preferences-common-elements:
 
-Common elements
+Common Elements
 ^^^^^^^^^^^^^^^
 
 Now that we have covered the `type` element, we shall return to the
@@ -277,7 +277,7 @@ An example excerpt from a image description using these child-elements of
 
 .. _xml-description-image-profiles:
 
-Image profiles
+Image Profiles
 --------------
 
 In the previous section we have covered build types, that are represented
@@ -358,14 +358,15 @@ Profiles can furthermore inherit settings from another profile via the
 The profile `QEMU` would inherit the settings from `VM` in the above
 example.
 
+.. FIXME: link to build_with_profiles.rst
 
 .. _xml-description-adding-users:
 
-Adding users
+Adding Users
 ------------
 
 User accounts can be added or modified via the `users` element, which
-supports a list of multiple `user` sub-elements:
+supports a list of multiple `user` child elements:
 
 .. code-block:: xml
 
@@ -376,29 +377,29 @@ supports a list of multiple `user` sub-elements:
      </users>
    </image>
 
-Each `user` element represents a specific user that should be added or
+Each `user` element represents a specific user that is added or
 modified. The following attributes are mandatory:
 
 - `name`: the UNIX username
 
 - `home`: the path to the user's home directory
 
-Additionally the following optional attributes can be specified:
+Additionally, the following optional attributes can be specified:
 
-- `groups`: A comma separated list of groups. The first element of the list
-  is used for the user's primary group. The remaining elements are appended
-  to the user's supplementary groups. When no groups are assigned then the
-  system's default primary group will be used [#f2]_
+- `groups`: A comma separated list of UNIX groups. The first element of the
+  list is used for the user's primary group. The remaining elements are
+  appended to the user's supplementary groups. When no groups are assigned
+  then the system's default primary group will be used [#f3]_
 
-- `id`: The user-id of this account
+- `id`: The user id of this account
 
 - `pwdformat`: The format in which `password` is provided, either `plain`
-  or `encrypted` (the latter is the default)
+  or `encrypted` (the latter is the default).
 
 - `password`: The password for this user account. It can be provided either
   in cleartext form (`pwdformat="plain"`) or in `crypt`'ed form
   (`pwdformat="encrypted"`). Plain passwords are discouraged, as everyone
-  with access to the image description would know the password. Thus please
+  with access to the image description would know the password. Thus
   generate a hash of your password, e.g. with the `mkpasswd` tool
   (available in most Linux distributions via the `whois` package):
 
@@ -408,17 +409,20 @@ Additionally the following optional attributes can be specified:
 
 .. _xml-description-repositories-and-packages:
 
-Defining repositories and adding or removing packages
+Defining Repositories and Adding or Removing Packages
 -----------------------------------------------------
 
 
 Stripping files from the appliance
 ----------------------------------
 
+.. [#f1] `RELAX NG <https://en.wikipedia.org/wiki/RELAX_NG>`_ is a
+         so-called schema language: it describes the structure of a XML
+         document.
 
-.. [#f1] This option results in the creation of a copy-on-write file on the
-         filesystem to keep data persistent over a reboot.
+.. [#f2] A hybrid persistent filesystem contains a copy-on-write file to
+         keep data persistent over a reboot.
 
 .. FIXME: @schaefi: is this correct?
-.. [#f2] Note that the default primary group is taken from the system on
+.. [#f3] Note that the default primary group is taken from the system on
          which KIWI is run, not from the system that KIWI is building.
