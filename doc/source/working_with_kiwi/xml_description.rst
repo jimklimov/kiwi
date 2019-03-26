@@ -111,7 +111,7 @@ Build types
 ^^^^^^^^^^^
 
 A build type defines the type of appliance that is produced by KIWI, for
-instance a live ISO image or a virtual machine disk. For the
+instance a live ISO image or a virtual machine disk.
 
 For example a live ISO image is specified as follows:
 
@@ -128,15 +128,15 @@ For example a live ISO image is specified as follows:
 
 
 A build type is defined via a single `type` element whose only required
-attribute is `image`, which defines which image will be created. All other
-attributes are optional and can be used to customize a image further. In
+attribute is `image`, that defines which image will be created. All other
+attributes are optional and can be used to customize an image further. In
 the above example we created an ISO image, with the an ext4
 hybrid-persistent filesystem [#f1]_.
 
 It is possible to provide **multiple** `type` elements with different
 `image` attributes inside the preferences section. For instance the
 following XML snippet can be used to create a live image, an OEM
-installation image and a virtual machine version of the same appliance:
+installation image and a virtual machine disk of the same appliance:
 
 .. code-block:: xml
 
@@ -165,9 +165,9 @@ installation image and a virtual machine version of the same appliance:
    </image>
 
 
-KIWI supports the following values for the `image` attribute, further
-relevant attributes to `type` are documented inside the referenced
-sections:
+KIWI supports the following values for the `image` attribute (further
+attributes of the `type` element are documented inside the referenced
+sections):
 
 - `iso`: a live ISO image, see :ref:`hybrid_iso`
 - `vmx`: build a virtual machine image, see: :ref:`vmx`
@@ -182,7 +182,7 @@ sections:
   image into a mountable filesystem of the specified type.
 
 - `squashfs`, `clicfs`: creates the image as a filesystem that can be used
-  on live systems
+  in live systems
 
 - `tbz`, `cpio`: the unpacked source tree will be compressed into a `XZ
   <https://en.wikipedia.org/wiki/Xz>`_ or `CPIO
