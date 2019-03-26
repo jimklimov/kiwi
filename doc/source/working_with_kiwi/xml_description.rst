@@ -213,6 +213,51 @@ Image profiles
 Adding users
 ------------
 
+User accounts can be added or modified via the `users` element, which
+supports a list of multiple `user` sub-elements:
+
+.. code-block:: xml
+
+   <?xml version="1.0" encoding="utf-8"?>
+
+   <image schemaversion="6.9" name="JeOS-Tumbleweed">
+     <users>
+       <user password="this_is_soo_secure" home="/home/me" name="me" groups="users" pwdformat="plain" />
+       <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/root" name="root" groups="root"/>
+     </users>
+
+   </image>
+
+Each `user` element represents a specific user that should be added or
+modified. The following attributes are mandatory:
+
+- `name`: the UNIX username
+
+- `home`: the path to the user's home directory
+
+Additionally the following optional attributes can be specified:
+
+- `groups`: A comma separated list of groups. The first element of the list
+  is used for the user's primary group. The remaining elements are appended
+  to the user's supplementary groups. When no groups are assigned then the
+  system's default primary group will be used [#f2]_
+
+- `id`: The user-id of this account
+
+- `pwdformat`: The format in which `password` is provided, either `plain`
+  or `encrypted` (the latter is the default)
+
+- `password`: The password for this user account. It can be provided either
+  in cleartext form (`pwdformat="plain"`) or in `crypt`'ed form
+  (`pwdformat="encrypted"`). Plain passwords are discouraged, as everyone
+  with access to the image description would know the password. Thus please
+  generate a hash of your password, e.g. with the `mkpasswd` tool
+  (available in most Linux distributions via the `whois` package):
+
+  .. code:: bash
+
+     $ mkpasswd -m sha-512 -S $(date +%N) -s <<< INSERT_YOUR_PASSWORD_HERE
+
 
 Defining repositories and packages
 ----------------------------------
@@ -220,3 +265,7 @@ Defining repositories and packages
 
 .. [#f1] This option results in the creation of a copy-on-write file on the
          filesystem to keep data persistent over a reboot.
+
+.. FIXME: @schaefi: is this correct?
+.. [#f2] Note that the default primary group is taken from the system on
+         which KIWI is run, not from the system that KIWI is building.
