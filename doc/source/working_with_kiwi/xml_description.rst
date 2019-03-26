@@ -60,8 +60,6 @@ your image:
 
 .. code-block:: xml
 
-   <?xml version="1.0" encoding="utf-8"?>
-
    <image schemaversion="6.9" name="LimeJeOS-Leap-15.0">
 
      <description type="system">
@@ -119,8 +117,6 @@ For example a live ISO image is specified as follows:
 
 .. code-block:: xml
 
-   <?xml version="1.0" encoding="utf-8"?>
-
    <image schemaversion="6.9" name="LimeJeOS-Leap-15.0">
      <preferences>
        <type image="iso" primary="true" flags="overlay" hybridpersistent_filesystem="ext4" hybridpersistent="true"/>
@@ -144,8 +140,6 @@ installation image and a virtual machine version of the same appliance:
 
 .. code-block:: xml
 
-   <?xml version="1.0" encoding="utf-8"?>
-
    <image schemaversion="6.9" name="LimeJeOS-Leap-15.0">
      <preferences>
        <!-- Live ISO -->
@@ -162,8 +156,7 @@ installation image and a virtual machine version of the same appliance:
            <oem-device-filter>/dev/ram</oem-device-filter>
            <oem-multipath-scan>false</oem-multipath-scan>
          </oemconfig>
-         <machine memory="512" guestOS="suse" HWversion="4">
-         </machine>
+         <machine memory="512" guestOS="suse" HWversion="4"/>
        </type>
        <!-- additional preferences -->
      </preferences>
@@ -372,14 +365,11 @@ supports a list of multiple `user` sub-elements:
 
 .. code-block:: xml
 
-   <?xml version="1.0" encoding="utf-8"?>
-
    <image schemaversion="6.9" name="JeOS-Tumbleweed">
      <users>
        <user password="this_is_soo_secure" home="/home/me" name="me" groups="users" pwdformat="plain" />
        <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/root" name="root" groups="root"/>
      </users>
-
    </image>
 
 Each `user` element represents a specific user that should be added or
