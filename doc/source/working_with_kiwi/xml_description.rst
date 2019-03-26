@@ -219,6 +219,65 @@ the remaining child-elements: `machine`, `size` and `systemdisk`.
 Common elements
 ^^^^^^^^^^^^^^^
 
+Now that we have covered the `type` element, we shall return to the
+remaining child-elements of `preferences`:
+
+- `version`: A version number of this image. We recommend to use the
+  following format: **Major.Minor.Release**, however other versions are
+  possible, e.g. one can use the version of the underlying operating
+  system.
+
+- `packagemanager`: Specify the package manager that will be used to
+  download and install the packages for your appliance. Currently the
+  following package managers are supported: apt-get, zypper and dnf. Note
+  that the package manager must be installed on the system **calling**
+  KIWI, it is **not** sufficient to install it inside the appliance.
+
+- `locale`: Specify the locale that the resulting appliance will use.
+
+- `timezone`: Override the default timezone of the image to a more suitable
+  value, e.g. the timezone in which the image's users reside.
+
+- `rpm-check-signatures`: Boolean value that defines whether the signatures
+  of the downloaded RPM packages will be verified before installation.
+  Note that when building appliances for a different distribution you will
+  have to either import the other distribution's signing-key or set this to
+  `false` (RPM will otherwise fail to verify the package signatures, as it
+  does will not trust the signature key of other distributions or even
+  other versions of the same distribution).
+
+- `rpm-excludedocs`: Boolean value that instructs RPM whether to install
+  documentation with packages or not (currently this setting has only an
+  effect for zypper). Please bear in mind that enabling this can have quite
+  a negative impact on user-experience and should thus be used with care.
+
+- `bootloader-theme` and `bootsplash-theme`: themes for the bootloader and
+  the bootsplash-screen. These themes have to be either built-in to the
+  bootloader or installed via the `packages` section.
+
+
+An example excerpt from a image description using these child-elements of
+`preferences`, results in the following:
+
+.. code-block:: xml
+
+   <image schemaversion="6.9" name="OpenSUSE-Leap-15.0">
+     <!-- snip -->
+     <preferences>
+       <version>15.0</version>
+       <packagemanager>zypper</packagemanager>
+       <locale>en_US</locale>
+       <keytable>us</keytable>
+       <timezone>Europe/Berlin</timezone>
+       <rpm-excludedocs>true</rpm-excludedocs>
+       <rpm-check-signatures>false</rpm-check-signatures>
+       <bootsplash-theme>openSUSE</bootsplash-theme>
+       <bootloader-theme>openSUSE</bootloader-theme>
+       <type image="vmx" filesystem="ext4" format="qcow2" boottimeout="0" bootloader="grub2">
+    </preferences>
+    <!-- snip -->
+  </image>
+
 
 .. _xml-description-image-profiles:
 
