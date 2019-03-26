@@ -195,8 +195,24 @@ sections:
   <https://en.wikipedia.org/wiki/Xz>`_ or `CPIO
   <https://en.wikipedia.org/wiki/Cpio>`_ archive.
 
-.. TODO: explain subelements like <vagrantconfig>
-   TODO: explain the `primary` attribute
+
+The `type` element furthermore supports the following subelements (as shown
+above, `oemconfig` is a subelement of `<type image="oem" ...>`):
+
+- `containerconfig`: contains settings specific for the creation of
+  container images, see :ref:`building-docker-build`
+
+- `oemconfig`: configurations relevant for building OEM images, see:
+  :ref:`oem`
+
+- `pxedeploy`: settings for PXE booting, see :ref:`build_pxe`
+
+- `vagrantconfig`: instructs KIWI to build a Vagrant box instead of a
+  standard virtual machine image, see :ref:`setup_vagrant`
+
+Please consult the :ref:`schema-docs` for concerning the documentation of
+the remaining child-elements: `machine`, `size` and `systemdisk`.
+
 
 .. _xml-description-preferences-common-elements:
 
