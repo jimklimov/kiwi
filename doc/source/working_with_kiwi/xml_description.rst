@@ -359,6 +359,7 @@ The profile `QEMU` would inherit the settings from `VM` in the above
 example.
 
 
+.. _xml-description-adding-users:
 
 Adding users
 ------------
@@ -405,8 +406,13 @@ Additionally the following optional attributes can be specified:
 
      $ mkpasswd -m sha-512 -S $(date +%N) -s <<< INSERT_YOUR_PASSWORD_HERE
 
+.. _xml-description-repositories-and-packages:
 
-Defining repositories and packages
+Defining repositories and adding or removing packages
+-----------------------------------------------------
+
+
+Stripping files from the appliance
 ----------------------------------
 
 
