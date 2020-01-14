@@ -31,11 +31,19 @@ class PackageManagerTemplateAptGet(object):
             Dir::State "${apt_shared_base}/";
             Dir::Cache "${apt_shared_base}/";
             Dir::Etc   "${apt_shared_base}/";
+
+            # Bump APT timeout for slower uplinks
+            Acquire::http::Timeout "240";
+            Acquire::ftp::Timeout "240";
         ''').strip() + os.linesep
 
         self.image_header = dedent('''
             # kiwi generated apt-get config file
             Dir "/";
+
+            # Bump APT timeout for slower uplinks
+            Acquire::http::Timeout "240";
+            Acquire::ftp::Timeout "240";
         ''').strip() + os.linesep
 
         self.apt = dedent('''
