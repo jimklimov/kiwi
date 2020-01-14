@@ -275,3 +275,6 @@ class RepositoryApt(RepositoryBase):
 
         with open(self.runtime_apt_get_config_file.name, 'w') as config:
             config.write(apt_conf_data)
+            print (" ===> apt_conf_data:\n")
+            print (apt_conf_data)
+            print ("\nENDOF apt_conf_data\n")
